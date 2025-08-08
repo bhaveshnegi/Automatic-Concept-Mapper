@@ -1,7 +1,5 @@
 **MindMapr – Concept Mapper (D3.js)**
 
-**Tagline:** Visualize your thoughts, ideas, and concepts like never before!
-
 **Description:**
 
 MindMapr is a web-based concept mapping tool that helps users generate visual representations of their thoughts, ideas, and concepts. Built using Python, Flask, and D3.js, this project aims to provide a user-friendly interface for creating mind maps, perfect for brainstorming, note-taking, and idea generation. With MindMapr, you can easily organize and connect your thoughts, making it easier to structure and communicate complex ideas.
