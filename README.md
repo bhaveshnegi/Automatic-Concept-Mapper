@@ -73,8 +73,6 @@ Example input:
 
 
 **Screenshots:**
-
-[Placeholders: Screenshots of the MindMapr interface and a sample mind map]
 ![alt text](image.png)
 
 **API Reference:**
