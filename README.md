@@ -17,14 +17,19 @@ MindMapr is designed to be flexible and extensible, allowing users to customize 
 📁 **Project Structure:**
 
 ```
-mindmapr/
-app.py
-nlp_processor.py
-script.js
-style.css
-index.html
-requirements.txt
+Automatic-Concept-Mapper/
+backend/
+	app.py
+	nlp_processor.py
+	requirements.txt
+data/
+	sample_text.txt
+frontend/
+	script.js
+	style.css
+	index.html
 README.md
+.gitignore
 ```
 
 * `app.py`: The Flask web application that handles requests and routes.
