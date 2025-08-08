@@ -1,1 +1,5 @@
-AI helps machines learn. Humans use AI to automate tasks. AI impacts healthcare, education, and finance.
+1. AI helps machines learn. Humans use AI to automate tasks. AI impacts healthcare, education, and finance.
+2. Climate change affects ecosystems. Rising temperatures melt glaciers. Governments implement policies to reduce emissions. Renewable energy replaces fossil fuels.
+3. Cells are the building blocks of life. DNA stores genetic information. Proteins perform essential functions. The nucleus controls the cell. Mitochondria produce energy.
+4. The internet connects devices worldwide. Users share data online. Hackers exploit vulnerabilities. Cybersecurity protects sensitive information. Firewalls block unauthorized access.
+

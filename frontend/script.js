@@ -28,7 +28,7 @@ function renderGraph(data) {
   );
 
   const simulation = d3.forceSimulation(data.nodes)
-    .force("link", d3.forceLink(data.edges).id(d => d.id).distance(150))
+    .force("link", d3.forceLink(data.edges).id(d => d.id).distance(200))
     .force("charge", d3.forceManyBody().strength(-300))
     .force("center", d3.forceCenter(width / 2, height / 2));
 
@@ -44,17 +44,17 @@ function renderGraph(data) {
     .data(data.edges)
     .join("text")
     .text(d => d.label)
-    .attr("font-size", 10)
+    .attr("font-size", 12)
     .attr("fill", "#444");
 
   const node = g.append("g")
     .selectAll("circle")
     .data(data.nodes)
     .join("circle")
-    .attr("r", 20)
+    .attr("r", 50)
     .attr("fill", "#0074D9")
     .attr("stroke", "#fff")
-    .attr("stroke-width", 1.5)
+    .attr("stroke-width", 2.5)
     .call(drag(simulation));
 
   const label = g.append("g")
@@ -62,7 +62,7 @@ function renderGraph(data) {
     .data(data.nodes)
     .join("text")
     .text(d => d.id)
-    .attr("font-size", 12)
+    .attr("font-size", 15)
     .attr("fill", "#fff")
     .attr("text-anchor", "middle")
     .attr("dy", 4);
