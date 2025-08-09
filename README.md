@@ -71,7 +71,7 @@ Example input:
 
 
 **Screenshots:**
-![alt text](image.png)
+![UI image](image-1.png)
 
 **API Reference:**
 
