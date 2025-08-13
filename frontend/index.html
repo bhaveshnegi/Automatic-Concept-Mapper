@@ -2,16 +2,113 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>MindMapr – Concept Mapper (D3.js)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindMapr – AI-Powered Concept Mapper</title>
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-  <h2>MindMapr – Concept Mapper</h2>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <div class="logo">
+        <i class="fas fa-brain"></i>
+        <h1>MindMapr</h1>
+      </div>
+      <p class="tagline">AI-Powered Concept Mapping & Visualization</p>
+    </div>
+  </header>
 
-  <textarea id="inputText" rows="6" cols="60" placeholder="Enter text here..."></textarea><br>
-  <button onclick="generateMindmap()">Generate Mind Map</button>
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <!-- Input Section -->
+      <section class="input-section">
+        <div class="card">
+          <div class="card-header">
+            <h2><i class="fas fa-edit"></i> Input Your Text</h2>
+            <p>Enter or paste your text below to generate an interactive concept map</p>
+          </div>
+          <div class="card-body">
+            <div class="input-group">
+              <label for="inputText">Text Content:</label>
+              <textarea 
+                id="inputText" 
+                rows="8" 
+                placeholder="Enter your text here... For example: 'The internet connects devices worldwide. Users share data online. Cybersecurity protects sensitive information.'"
+              ></textarea>
+            </div>
+            <div class="button-group">
+              <button class="btn btn-primary" onclick="generateMindmap()">
+                <i class="fas fa-magic"></i>
+                Generate Mind Map
+              </button>
+              <button class="btn btn-secondary" onclick="clearInput()">
+                <i class="fas fa-eraser"></i>
+                Clear
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
 
-  <svg id="graph" width="1000" height="600"></svg>
+      <!-- Visualization Section -->
+      <section class="visualization-section">
+        <div class="card">
+          <div class="card-header">
+            <h2><i class="fas fa-project-diagram"></i> Concept Map</h2>
+            <p>Interactive visualization of concepts and their relationships</p>
+          </div>
+          <div class="card-body">
+            <div class="graph-container">
+              <svg id="graph" width="100%" height="600"></svg>
+              <div class="graph-placeholder" id="graphPlaceholder">
+                <i class="fas fa-chart-network"></i>
+                <h3>Ready to Generate</h3>
+                <p>Enter your text above and click "Generate Mind Map" to see the magic happen!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Info Section -->
+      <section class="info-section">
+        <div class="card">
+          <div class="card-header">
+            <h2><i class="fas fa-info-circle"></i> How It Works</h2>
+          </div>
+          <div class="card-body">
+            <div class="features-grid">
+              <div class="feature">
+                <i class="fas fa-upload"></i>
+                <h3>Input Text</h3>
+                <p>Paste or type your text content</p>
+              </div>
+              <div class="feature">
+                <i class="fas fa-cogs"></i>
+                <h3>AI Processing</h3>
+                <p>Advanced NLP extracts concepts and relationships</p>
+              </div>
+              <div class="feature">
+                <i class="fas fa-eye"></i>
+                <h3>Visualize</h3>
+                <p>Interactive D3.js mind map generation</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2024 MindMapr. Built with AI and D3.js</p>
+    </div>
+  </footer>
 
   <!-- Load D3.js -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
