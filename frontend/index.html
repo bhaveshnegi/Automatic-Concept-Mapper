@@ -62,12 +62,18 @@
           </div>
           <div class="card-body">
             <div class="graph-container">
-              <svg id="graph" width="100%" height="600"></svg>
+              <svg id="graph" width="800" height="600"></svg>
               <div class="graph-placeholder" id="graphPlaceholder">
                 <i class="fas fa-chart-network"></i>
                 <h3>Ready to Generate</h3>
                 <p>Enter your text above and click "Generate Mind Map" to see the magic happen!</p>
               </div>
+            </div>
+            <!-- Debug Info -->
+            <div id="debugInfo" style="margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; font-family: monospace; font-size: 12px;">
+              <strong>Debug Info:</strong>
+              <div id="debugStatus">Status: Ready</div>
+              <div id="debugData">Data: None</div>
             </div>
           </div>
         </div>

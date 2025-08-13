@@ -6,6 +6,9 @@ async function generateMindmap() {
     return;
   }
 
+  // Update debug info
+  updateDebugInfo("Status: Generating mind map...", "Text: " + text.substring(0, 50) + "...");
+
   // Show loading state
   const generateBtn = document.querySelector('.btn-primary');
   const originalText = generateBtn.innerHTML;
@@ -19,7 +22,13 @@ async function generateMindmap() {
       body: JSON.stringify({ text })
     });
 
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
     const data = await response.json();
+    
+    updateDebugInfo("Status: Success! Rendering graph...", "Nodes: " + data.nodes.length + ", Edges: " + data.edges.length);
     
     // Store the generated data in localStorage
     localStorage.setItem('mindmapData', JSON.stringify(data));
@@ -28,12 +37,23 @@ async function generateMindmap() {
     renderGraph(data);
   } catch (error) {
     console.error("Error generating mind map:", error);
-    alert("Error generating mind map. Please try again.");
+    updateDebugInfo("Status: Error - " + error.message, "Make sure backend is running at http://127.0.0.1:5000");
+    alert("Error generating mind map. Please make sure your backend server is running at http://127.0.0.1:5000");
+    
+    // Show placeholder when there's an error
+    hideGraph();
   } finally {
     // Reset button state
     generateBtn.innerHTML = originalText;
     generateBtn.disabled = false;
   }
+}
+
+function updateDebugInfo(status, data) {
+  const statusEl = document.getElementById('debugStatus');
+  const dataEl = document.getElementById('debugData');
+  if (statusEl) statusEl.textContent = status;
+  if (dataEl) dataEl.textContent = data;
 }
 
 function clearInput() {
@@ -42,30 +62,48 @@ function clearInput() {
   // Clear stored data
   localStorage.removeItem('mindmapData');
   localStorage.removeItem('mindmapText');
+  updateDebugInfo("Status: Cleared", "Data: None");
 }
 
 function hideGraph() {
   const graph = document.getElementById("graph");
   const placeholder = document.getElementById("graphPlaceholder");
   
-  graph.style.display = "none";
-  placeholder.style.display = "block";
+  if (graph && placeholder) {
+    graph.style.display = "none";
+    placeholder.style.display = "block";
+  }
 }
 
 function showGraph() {
   const graph = document.getElementById("graph");
   const placeholder = document.getElementById("graphPlaceholder");
   
-  graph.style.display = "block";
-  placeholder.style.display = "none";
+  if (graph && placeholder) {
+    graph.style.display = "block";
+    placeholder.style.display = "none";
+  }
 }
 
 function renderGraph(data) {
+  console.log("Rendering graph with data:", data);
+  updateDebugInfo("Status: Rendering graph...", "Processing " + data.nodes.length + " nodes");
+  
   const svg = d3.select("#graph");
-  svg.selectAll("*").remove(); // Clear previous graph
+  if (svg.empty()) {
+    console.error("SVG element not found!");
+    updateDebugInfo("Status: Error - SVG not found", "Check HTML structure");
+    return;
+  }
+  
+  // Clear previous graph
+  svg.selectAll("*").remove();
 
-  const width = +svg.attr("width");
-  const height = +svg.attr("height");
+  // Get SVG dimensions
+  const width = 800;
+  const height = 600;
+  
+  console.log("SVG dimensions:", width, height);
 
   // Create a group for zoomable content
   const g = svg.append("g");
@@ -254,7 +292,6 @@ function renderGraph(data) {
       const dx = d.target.x - d.source.x;
       const dy = d.target.y - d.source.y;
       const dr = Math.sqrt(dx * dx + dy * dy);
-      const offset = 20;
       
       return `M${d.source.x},${d.source.y}A${dr},${dr} 0 0,1 ${d.target.x},${d.target.y}`;
     });
@@ -283,6 +320,8 @@ function renderGraph(data) {
     .delay((d, i) => i * 100)
     .duration(400)
     .style("opacity", 1);
+    
+  updateDebugInfo("Status: Graph rendered successfully!", "Nodes: " + data.nodes.length + ", Edges: " + data.edges.length);
 }
 
 function addZoomControls(svg, zoom) {
@@ -428,41 +467,36 @@ function drag(simulation) {
 
 // Initialize the page
 document.addEventListener('DOMContentLoaded', async function() {
-  // Add sample text for demonstration
-  const sampleText = "The internet connects devices worldwide. Users share data online. Hackers exploit vulnerabilities. Cybersecurity protects sensitive information. Firewalls block unauthorized access.";
+  console.log("Page loaded, initializing...");
+  updateDebugInfo("Status: Page loaded", "Initializing...");
   
   // Check if we have stored mindmap data
   const storedData = localStorage.getItem('mindmapData');
   const storedText = localStorage.getItem('mindmapText');
   
   if (storedData && storedText) {
+    console.log("Restoring stored mindmap data");
+    updateDebugInfo("Status: Restoring stored data", "Found previous mindmap");
     // Restore the stored data
     document.getElementById("inputText").value = storedText;
-    const data = JSON.parse(storedData);
-    renderGraph(data);
-  } else {
-    // Set sample text and generate mindmap automatically
-    document.getElementById("inputText").value = sampleText;
-    
-    // Auto-generate the mindmap on page load
     try {
-      const response = await fetch("http://127.0.0.1:5000/mindmap", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: sampleText })
-      });
-
-      const data = await response.json();
-      
-      // Store the generated data
-      localStorage.setItem('mindmapData', JSON.stringify(data));
-      localStorage.setItem('mindmapText', sampleText);
-      
+      const data = JSON.parse(storedData);
       renderGraph(data);
     } catch (error) {
-      console.error("Error auto-generating mind map:", error);
-      // If auto-generation fails, just show the placeholder
+      console.error("Error restoring stored data:", error);
+      localStorage.removeItem('mindmapData');
+      localStorage.removeItem('mindmapText');
       hideGraph();
+      updateDebugInfo("Status: Error restoring data", "Cleared corrupted data");
     }
+  } else {
+    console.log("No stored data, setting up sample text");
+    updateDebugInfo("Status: No stored data", "Ready to generate new mindmap");
+    // Set sample text
+    const sampleText = "The internet connects devices worldwide. Users share data online. Hackers exploit vulnerabilities. Cybersecurity protects sensitive information. Firewalls block unauthorized access.";
+    document.getElementById("inputText").value = sampleText;
+    
+    // Show placeholder initially
+    hideGraph();
   }
 });
